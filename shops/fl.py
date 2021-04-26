@@ -1,0 +1,1 @@
+print(open('./images.jpeg', 'rb').read())

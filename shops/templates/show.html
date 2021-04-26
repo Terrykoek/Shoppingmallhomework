@@ -1,0 +1,29 @@
+{% extends 'shops/base.html' %}
+
+{% block title %}{{shop.title | capfirst}}::{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+
+            <img src="{{shop.cover.url}}" />
+            <h3>{{shop.title | capfirst}} by {{shop.author}}</h3>
+
+            <p>{{shop.description}}</p>
+
+            <a href="{% url 'shop_show' shop.id %}?action=edit">Edit</a>
+            <a href="{% url 'shop_show' shop.id %}?action=del">Delete</a>
+        </div>
+        {% if edit %}
+        <div class="col-md-6">
+            <form action="{% url 'shop_show' shop.id %}?action=edit" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <button>Edit shop</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}

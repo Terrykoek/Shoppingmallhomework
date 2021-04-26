@@ -1,0 +1,61 @@
+{% extends 'shops/base.html' %}
+
+{% block title %}All shops::{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% comment %} Form {% endcomment %}
+
+            <form action="{% url 'shops_index'%}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="row mb-3">
+
+                    {{field.label_tag}}
+                    {{field}}
+                    <div class="text-danger">
+                        {{field.errors}}
+                    </div>
+                    {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="form-row mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        Add shop
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                {% for shop in shops %}
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <img src="{{shop.cover.url}}" class="card-img-top" />
+                        <div class="card-body">
+                            <p class="card-title">
+                                {{shop.title}}
+                            </p>
+                            <p class="card-text">
+                                {{shop.price}}
+                            </p>
+                            <a class="card-link btn btn-primary" href="{% url 'shop_show' shop.id %}">Show</a>
+
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-warning">
+                    No shops yet
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
